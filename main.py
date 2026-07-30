@@ -16,9 +16,9 @@ HTML_TEMPLATE = """
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#4EA8DE">
     
-    <!-- Icon màn hình chính lấy từ ảnh anime bạn gửi -->
-    <link rel="apple-touch-icon" href="https://i.pinimg.com/736x/5e/6f/2f/5e6f2ffe4f0028c1804c57bb4d527e6c.jpg"> 
-    <link rel="icon" type="image/png" href="https://i.pinimg.com/736x/5e/6f/2f/5e6f2ffe4f0028c1804c57bb4d527e6c.jpg">
+    <!-- Icon màn hình chính -->
+    <link rel="apple-touch-icon" href="https://i.pinimg.com/736x/fe/1f/ee/fe1fee15856af5f07c6b65255034f729.jpg"> 
+    <link rel="icon" type="image/png" href="https://i.pinimg.com/736x/fe/1f/ee/fe1fee15856af5f07c6b65255034f729.jpg">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Quicksand:wght@600;700&display=swap');
@@ -28,8 +28,8 @@ HTML_TEMPLATE = """
             --grass-green: #52B788;
             --pastel-yellow: #FFD166;
             --text-dark: #2B2D42;
-            --card-bg: rgba(255, 255, 255, 0.92);
-            --shadow: 0 12px 35px rgba(78, 168, 222, 0.25);
+            --card-bg: rgba(255, 255, 255, 0.94);
+            --shadow: 0 12px 35px rgba(78, 168, 222, 0.22);
             --red: #FF6B6B;
             --orange: #FFB703;
         }
@@ -37,7 +37,6 @@ HTML_TEMPLATE = """
         body { 
             font-family: 'Nunito', sans-serif; 
             padding: 20px 15px; 
-            /* Nền gradient tươi tắn lấy cảm hứng từ mây trời & đồng cỏ anime */
             background: linear-gradient(135deg, #E0F4FF 0%, #EAFDF8 50%, #FFF9E6 100%);
             color: var(--text-dark);
             margin: 0;
@@ -50,16 +49,16 @@ HTML_TEMPLATE = """
             background-attachment: fixed;
         }
 
-        /* Khung thông tin chủ nhân web (Thùy Trâm) */
+        /* Khung thông tin chủ nhân web */
         .owner-banner {
             display: flex;
             align-items: center;
             background: var(--card-bg);
             backdrop-filter: blur(10px);
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 50px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-            margin-bottom: 18px;
+            margin-bottom: 15px;
             border: 2px solid #BEE1E6;
             gap: 10px;
             animation: float 3s ease-in-out infinite;
@@ -91,10 +90,30 @@ HTML_TEMPLATE = """
             font-size: 13px;
             font-weight: 700;
             color: #0077B6;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             letter-spacing: 1.5px;
             text-transform: uppercase;
             text-align: center;
+        }
+
+        /* Nút chuyển đổi chế độ bàn phím */
+        .btn-mode-switch {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1.5px solid #90E0EF;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: #0077B6;
+            cursor: pointer;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+            transition: all 0.2s;
+        }
+        .btn-mode-switch:active {
+            transform: scale(0.95);
+            background: #CAF0F8;
         }
 
         #display-container {
@@ -104,12 +123,12 @@ HTML_TEMPLATE = """
             backdrop-filter: blur(12px);
             border: 2px solid #FFFFFF;
             border-radius: 24px;
-            padding: 22px 20px;
+            padding: 20px;
             box-shadow: var(--shadow);
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             text-align: center;
             box-sizing: border-box;
-            min-height: 80px;
+            min-height: 75px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -121,6 +140,31 @@ HTML_TEMPLATE = """
             font-weight: 700;
             color: var(--text-dark);
             letter-spacing: 3px;
+        }
+
+        /* Ô nhập liệu khi bật bàn phím điện thoại */
+        .native-input-box {
+            width: 100%;
+            max-width: 360px;
+            display: none;
+            margin-bottom: 18px;
+            box-sizing: border-box;
+        }
+
+        .native-input {
+            width: 100%;
+            padding: 18px 20px;
+            font-size: 20px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            border: 2px solid var(--sky-blue);
+            border-radius: 20px;
+            background: var(--card-bg);
+            color: var(--text-dark);
+            outline: none;
+            box-shadow: var(--shadow);
+            text-align: center;
+            box-sizing: border-box;
         }
         
         .numpad { 
@@ -174,7 +218,7 @@ HTML_TEMPLATE = """
         }
 
         .footer-note {
-            margin-top: 20px;
+            margin-top: 18px;
             font-size: 12px;
             color: #6C757D;
             text-align: center;
@@ -185,17 +229,27 @@ HTML_TEMPLATE = """
 <body>
     <!-- Khu vực thể hiện chủ nhân web -->
     <div class="owner-banner">
-        <img class="owner-avatar" src="https://i.pinimg.com/736x/5e/6f/2f/5e6f2ffe4f0028c1804c57bb4d527e6c.jpg" alt="Avatar">
+        <img class="owner-avatar" src="https://i.pinimg.com/1200x/7c/83/f1/7c83f11301dd50d4b55e5660d152eb20.jpg" alt="Avatar">
         <span class="owner-name">✨ Web của Thùy Trâm ✨</span>
     </div>
 
     <div class="header">☁️ Co.opmart Thống Nhất ☁️</div>
+
+    <!-- Nút đổi bàn phím -->
+    <button class="btn-mode-switch" id="modeSwitchBtn" onclick="toggleKeyboardMode()">⌨️ Dùng bàn phím điện thoại</button>
     
-    <div id="display-container">
+    <!-- Màn hình hiển thị số (Chế độ Numpad) -->
+    <div id="display-container" onclick="focusNativeInput()">
         <div id="display" style="color: #8D99AE; font-size: 15px; font-weight: 600; letter-spacing: 0.5px;">Chạm để nhập mã SKU...</div>
     </div>
 
-    <div class="numpad">
+    <!-- Ô nhập văn bản chuẩn (Chế độ bàn phím điện thoại) -->
+    <div class="native-input-box" id="nativeInputBox">
+        <input type="text" id="nativeInput" class="native-input" placeholder="Nhập SKU bằng bàn phím..." oninput="syncFromNative()">
+    </div>
+
+    <!-- Bàn phím số tùy chỉnh -->
+    <div class="numpad" id="customNumpad">
         <button class="btn" onclick="inputNumber(1)">1</button>
         <button class="btn" onclick="inputNumber(2)">2</button>
         <button class="btn" onclick="inputNumber(3)">3</button>
@@ -215,7 +269,32 @@ HTML_TEMPLATE = """
 
     <script>
         let currentInput = "";
+        let isNativeMode = false;
         const display = document.getElementById("display");
+        const displayContainer = document.getElementById("display-container");
+        const nativeInputBox = document.getElementById("nativeInputBox");
+        const nativeInput = document.getElementById("nativeInput");
+        const customNumpad = document.getElementById("customNumpad");
+        const modeSwitchBtn = document.getElementById("modeSwitchBtn");
+
+        function toggleKeyboardMode() {
+            isNativeMode = !isNativeMode;
+            if (isNativeMode) {
+                displayContainer.style.display = "none";
+                nativeInputBox.style.display = "block";
+                customNumpad.style.display = "none";
+                modeSwitchBtn.innerText = "🔢 Dùng bàn phím số tùy chỉnh";
+                nativeInput.value = currentInput;
+                nativeInput.focus();
+            } else {
+                displayContainer.style.display = "flex";
+                nativeInputBox.style.display = "none";
+                customNumpad.style.display = "grid";
+                modeSwitchBtn.innerText = "⌨️ Dùng bàn phím điện thoại";
+                currentInput = nativeInput.value;
+                updateDisplay();
+            }
+        }
 
         function inputNumber(num) { 
             currentInput += num; 
@@ -229,6 +308,11 @@ HTML_TEMPLATE = """
             currentInput = ""; 
             updateDisplay(); 
         }
+
+        function syncFromNative() {
+            currentInput = nativeInput.value;
+        }
+
         function updateDisplay() { 
             if(currentInput === "") {
                 display.innerText = "Chạm để nhập mã SKU...";
@@ -244,9 +328,11 @@ HTML_TEMPLATE = """
                 display.style.letterSpacing = "3px";
             }
         }
+
         function searchSKU() {
-            if(!currentInput) return alert("Bé Trâm ơi, bạn chưa nhập mã SKU kìa! 💕");
-            window.location.href = "https://cooponline.vn/search?router=productListing&query=" + currentInput;
+            let query = isNativeMode ? nativeInput.value : currentInput;
+            if(!query) return alert("Bé Trâm ơi, bạn chưa nhập mã SKU kìa! 💕");
+            window.location.href = "https://cooponline.vn/search?router=productListing&query=" + query;
         }
     </script>
 </body>
@@ -268,7 +354,7 @@ def manifest():
         "theme_color": "#4EA8DE",
         "icons": [
             {
-                "src": "https://i.pinimg.com/1200x/24/c4/3c/24c43c01aa81204cda2c6fa84c58a264.jpg",
+                "src": "https://i.pinimg.com/736x/bb/75/d0/bb75d0c8e364e8c74b9d4537abebd35b.jpg",
                 "sizes": "512x512",
                 "type": "image/png"
             }
