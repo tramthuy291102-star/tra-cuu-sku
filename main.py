@@ -8,36 +8,38 @@ HTML_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tra SKU Co.opmart</title>
+    <title>Tra SKU Co.op - Thùy Trâm</title>
     
-    <!-- Cấu hình PWA đưa ra màn hình chính -->
+    <!-- Cấu hình PWA ra màn hình chính -->
     <link rel="manifest" href="/manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#76A998">
+    <meta name="theme-color" content="#4EA8DE">
+    
+    <!-- Icon màn hình chính lấy từ ảnh anime bạn gửi -->
     <link rel="apple-touch-icon" href="https://i.pinimg.com/736x/5e/6f/2f/5e6f2ffe4f0028c1804c57bb4d527e6c.jpg"> 
     <link rel="icon" type="image/png" href="https://i.pinimg.com/736x/5e/6f/2f/5e6f2ffe4f0028c1804c57bb4d527e6c.jpg">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Quicksand:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Quicksand:wght@600;700&display=swap');
         
         :root {
-            --bg-gradient: radial-gradient(circle at top, #F4F8F5 0%, #E2ECE7 100%);
-            --primary: #76A998; 
-            --primary-hover: #619382;
-            --text: #2C3E35;
-            --gray: #8A9E93;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --shadow: 0 15px 35px rgba(118, 169, 152, 0.15);
-            --red: #D97777;
-            --orange: #D99B6A;
+            --sky-blue: #4EA8DE;
+            --grass-green: #52B788;
+            --pastel-yellow: #FFD166;
+            --text-dark: #2B2D42;
+            --card-bg: rgba(255, 255, 255, 0.92);
+            --shadow: 0 12px 35px rgba(78, 168, 222, 0.25);
+            --red: #FF6B6B;
+            --orange: #FFB703;
         }
 
         body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            padding: 25px 15px; 
-            background: var(--bg-gradient); 
-            color: var(--text);
+            font-family: 'Nunito', sans-serif; 
+            padding: 20px 15px; 
+            /* Nền gradient tươi tắn lấy cảm hứng từ mây trời & đồng cỏ anime */
+            background: linear-gradient(135deg, #E0F4FF 0%, #EAFDF8 50%, #FFF9E6 100%);
+            color: var(--text-dark);
             margin: 0;
             display: flex;
             flex-direction: column;
@@ -45,29 +47,54 @@ HTML_TEMPLATE = """
             min-height: 100vh;
             box-sizing: border-box;
             touch-action: manipulation;
+            background-attachment: fixed;
         }
-        
-        .header-container {
+
+        /* Khung thông tin chủ nhân web (Thùy Trâm) */
+        .owner-banner {
             display: flex;
             align-items: center;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            margin-bottom: 18px;
+            border: 2px solid #BEE1E6;
             gap: 10px;
-            margin-bottom: 22px;
+            animation: float 3s ease-in-out infinite;
         }
 
-        .floral-icon {
-            width: 24px;
-            height: 24px;
-            fill: var(--primary);
-            opacity: 0.85;
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
         }
 
-        .header {
+        .owner-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--sky-blue);
+        }
+
+        .owner-name {
             font-family: 'Quicksand', sans-serif;
             font-size: 15px;
             font-weight: 700;
-            color: var(--primary);
-            letter-spacing: 2.5px;
+            color: #2D6A4F;
+            letter-spacing: 0.5px;
+        }
+        
+        .header {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #0077B6;
+            margin-bottom: 15px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
+            text-align: center;
         }
 
         #display-container {
@@ -75,33 +102,24 @@ HTML_TEMPLATE = """
             max-width: 360px;
             background: var(--card-bg);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.95);
+            border: 2px solid #FFFFFF;
             border-radius: 24px;
-            padding: 24px 20px;
+            padding: 22px 20px;
             box-shadow: var(--shadow);
-            margin-bottom: 22px;
+            margin-bottom: 20px;
             text-align: center;
             box-sizing: border-box;
-            min-height: 85px;
+            min-height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        #display-container::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 4px; height: 100%;
-            background: var(--primary);
         }
 
         #display { 
-            font-family: 'Cinzel', serif;
+            font-family: 'Quicksand', sans-serif;
             font-size: 32px; 
-            font-weight: 600;
-            color: var(--text);
+            font-weight: 700;
+            color: var(--text-dark);
             letter-spacing: 3px;
         }
         
@@ -115,66 +133,66 @@ HTML_TEMPLATE = """
         
         .btn { 
             background: var(--card-bg); 
-            backdrop-filter: blur(6px);
-            border: 1px solid rgba(255, 255, 255, 0.8); 
-            border-radius: 18px; 
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.9); 
+            border-radius: 20px; 
             font-family: 'Quicksand', sans-serif;
             font-size: 24px; 
-            font-weight: 600; 
-            padding: 18px 0; 
+            font-weight: 700; 
+            padding: 16px 0; 
             cursor: pointer; 
-            color: var(--text);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-dark);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            transition: all 0.15s ease;
         }
         .btn:active { 
-            transform: scale(0.93); 
-            background: rgba(118, 169, 152, 0.18); 
+            transform: scale(0.92); 
+            background: #D8F3DC; 
         }
         
-        .btn-action { font-size: 15px; font-weight: 700; letter-spacing: 0.5px;}
-        .btn-del-all { color: var(--red); background: rgba(217, 119, 119, 0.05); }
-        .btn-del-one { color: var(--orange); background: rgba(217, 155, 106, 0.05); }
+        .btn-action { font-size: 14px; font-weight: 800; }
+        .btn-del-all { color: var(--red); background: #FFE5E5; border-color: #FFC9C9; }
+        .btn-del-one { color: #D4A373; background: #FEFAE0; border-color: #FAEDCD; }
         
         .btn-search { 
-            background: linear-gradient(135deg, #76A998 0%, #5E8F7F 100%); 
+            background: linear-gradient(135deg, #4EA8DE 0%, #52B788 100%); 
             color: white; 
             border: none;
             grid-column: span 3; 
             padding: 18px 0; 
-            border-radius: 18px;
+            border-radius: 20px;
             font-family: 'Quicksand', sans-serif;
-            font-size: 19px;
+            font-size: 18px;
             font-weight: 700;
-            letter-spacing: 1.5px;
-            box-shadow: 0 8px 22px rgba(118, 169, 152, 0.35);
+            letter-spacing: 1px;
+            box-shadow: 0 8px 22px rgba(82, 183, 136, 0.35);
             transition: all 0.2s ease;
         }
         .btn-search:active { 
             transform: scale(0.97);
-            background: linear-gradient(135deg, #619382 0%, #4C7567 100%); 
+            background: linear-gradient(135deg, #3A86EF 0%, #40916C 100%); 
         }
 
         .footer-note {
-            margin-top: 25px;
-            font-size: 11px;
-            color: var(--gray);
+            margin-top: 20px;
+            font-size: 12px;
+            color: #6C757D;
             text-align: center;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
-    <div class="header-container">
-        <!-- Biểu tượng hoa trang trí tinh tế -->
-        <svg class="floral-icon" viewBox="0 0 24 24"><path d="M12,2C11.5,5.5 9,8 5.5,8.5C9,9 11.5,11.5 12,15C12.5,11.5 15,9 18.5,8.5C15,8 12.5,5.5 12,2M19,14C18.7,16 17,17.7 15,18C17,18.3 18.7,20 19,22C19.3,20 21,18.3 23,18C21,17.7 19.3,16 19,14M5,12C4.7,13.5 3.5,14.7 2,15C3.5,15.3 4.7,16.5 5,18C5.3,16.5 6.5,15.3 8,15C6.5,14.7 5.3,13.5 5,12Z"/></svg>
-        <div class="header">Co.opmart Thống Nhất</div>
-        <svg class="floral-icon" viewBox="0 0 24 24"><path d="M12,2C11.5,5.5 9,8 5.5,8.5C9,9 11.5,11.5 12,15C12.5,11.5 15,9 18.5,8.5C15,8 12.5,5.5 12,2M19,14C18.7,16 17,17.7 15,18C17,18.3 18.7,20 19,22C19.3,20 21,18.3 23,18C21,17.7 19.3,16 19,14M5,12C4.7,13.5 3.5,14.7 2,15C3.5,15.3 4.7,16.5 5,18C5.3,16.5 6.5,15.3 8,15C6.5,14.7 5.3,13.5 5,12Z"/></svg>
+    <!-- Khu vực thể hiện chủ nhân web -->
+    <div class="owner-banner">
+        <img class="owner-avatar" src="https://i.pinimg.com/736x/5e/6f/2f/5e6f2ffe4f0028c1804c57bb4d527e6c.jpg" alt="Avatar">
+        <span class="owner-name">✨ Web của Thùy Trâm ✨</span>
     </div>
+
+    <div class="header">☁️ Co.opmart Thống Nhất ☁️</div>
     
     <div id="display-container">
-        <div id="display" style="color: var(--gray); font-size: 15px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; letter-spacing: 0.5px;">Chạm để nhập mã SKU</div>
+        <div id="display" style="color: #8D99AE; font-size: 15px; font-weight: 600; letter-spacing: 0.5px;">Chạm để nhập mã SKU...</div>
     </div>
 
     <div class="numpad">
@@ -190,10 +208,10 @@ HTML_TEMPLATE = """
         <button class="btn btn-action btn-del-all" onclick="clearDisplay()">XÓA HẾT</button>
         <button class="btn" onclick="inputNumber(0)">0</button>
         <button class="btn btn-action btn-del-one" onclick="deleteLast()">XÓA</button>
-        <button class="btn btn-search" onclick="searchSKU()">TRA CỨU NGAY</button>
+        <button class="btn btn-search" onclick="searchSKU()">🌸 TRA CỨU NGAY 🌸</button>
     </div>
 
-    <div class="footer-note">✦ Botanical Anime Luxury Edition ✦</div>
+    <div class="footer-note">🌿 Anime Sky & Field Edition 🌿</div>
 
     <script>
         let currentInput = "";
@@ -213,23 +231,21 @@ HTML_TEMPLATE = """
         }
         function updateDisplay() { 
             if(currentInput === "") {
-                display.innerText = "Chạm để nhập mã SKU";
-                display.style.color = "var(--gray)";
+                display.innerText = "Chạm để nhập mã SKU...";
+                display.style.color = "#8D99AE";
                 display.style.fontSize = "15px";
-                display.style.fontFamily = "'Plus Jakarta Sans', sans-serif";
-                display.style.fontWeight = "500";
+                display.style.fontWeight = "600";
                 display.style.letterSpacing = "0.5px";
             } else {
                 display.innerText = currentInput; 
-                display.style.color = "var(--text)";
+                display.style.color = "var(--text-dark)";
                 display.style.fontSize = "32px";
-                display.style.fontFamily = "'Cinzel', serif";
-                display.style.fontWeight = "600";
+                display.style.fontWeight = "700";
                 display.style.letterSpacing = "3px";
             }
         }
         function searchSKU() {
-            if(!currentInput) return alert("Vui lòng nhập mã SKU cần tìm!");
+            if(!currentInput) return alert("Bé Trâm ơi, bạn chưa nhập mã SKU kìa! 💕");
             window.location.href = "https://cooponline.vn/search?router=productListing&query=" + currentInput;
         }
     </script>
@@ -244,15 +260,15 @@ def index():
 @app.route('/manifest.json')
 def manifest():
     return jsonify({
-        "name": "Tra SKU Co.opmart",
-        "short_name": "Co.op SKU",
+        "name": "Tra SKU Co.op - Thùy Trâm",
+        "short_name": "Co.op Trâm",
         "start_url": "/",
         "display": "standalone",
-        "background_color": "#F4F8F5",
-        "theme_color": "#76A998",
+        "background_color": "#E0F4FF",
+        "theme_color": "#4EA8DE",
         "icons": [
             {
-                "src": "https://i.imgur.com/8Q9Q9Q9.png",
+                "src": "https://i.pinimg.com/1200x/24/c4/3c/24c43c01aa81204cda2c6fa84c58a264.jpg",
                 "sizes": "512x512",
                 "type": "image/png"
             }
