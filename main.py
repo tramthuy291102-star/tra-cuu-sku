@@ -125,7 +125,7 @@ HTML_TEMPLATE = """
             border-radius: 24px;
             padding: 20px;
             box-shadow: var(--shadow);
-            margin-bottom: 18px;
+            margin-bottom: 15px;
             text-align: center;
             box-sizing: border-box;
             min-height: 75px;
@@ -147,7 +147,7 @@ HTML_TEMPLATE = """
             width: 100%;
             max-width: 360px;
             display: none;
-            margin-bottom: 18px;
+            margin-bottom: 15px;
             box-sizing: border-box;
         }
 
@@ -166,7 +166,31 @@ HTML_TEMPLATE = """
             text-align: center;
             box-sizing: border-box;
         }
+
+        /* Nút Tra Cứu Ngay luôn hiển thị độc lập ở ngoài */
+        .btn-search { 
+            width: 100%;
+            max-width: 360px;
+            background: linear-gradient(135deg, #4EA8DE 0%, #52B788 100%); 
+            color: white; 
+            border: none;
+            padding: 18px 0; 
+            border-radius: 20px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 22px rgba(82, 183, 136, 0.35);
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: all 0.2s ease;
+        }
+        .btn-search:active { 
+            transform: scale(0.97);
+            background: linear-gradient(135deg, #3A86EF 0%, #40916C 100%); 
+        }
         
+        /* Bàn phím số tùy chỉnh */
         .numpad { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
@@ -197,25 +221,6 @@ HTML_TEMPLATE = """
         .btn-action { font-size: 14px; font-weight: 800; }
         .btn-del-all { color: var(--red); background: #FFE5E5; border-color: #FFC9C9; }
         .btn-del-one { color: #D4A373; background: #FEFAE0; border-color: #FAEDCD; }
-        
-        .btn-search { 
-            background: linear-gradient(135deg, #4EA8DE 0%, #52B788 100%); 
-            color: white; 
-            border: none;
-            grid-column: span 3; 
-            padding: 18px 0; 
-            border-radius: 20px;
-            font-family: 'Quicksand', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            box-shadow: 0 8px 22px rgba(82, 183, 136, 0.35);
-            transition: all 0.2s ease;
-        }
-        .btn-search:active { 
-            transform: scale(0.97);
-            background: linear-gradient(135deg, #3A86EF 0%, #40916C 100%); 
-        }
 
         .footer-note {
             margin-top: 18px;
@@ -239,7 +244,7 @@ HTML_TEMPLATE = """
     <button class="btn-mode-switch" id="modeSwitchBtn" onclick="toggleKeyboardMode()">⌨️ Dùng bàn phím điện thoại</button>
     
     <!-- Màn hình hiển thị số (Chế độ Numpad) -->
-    <div id="display-container" onclick="focusNativeInput()">
+    <div id="display-container">
         <div id="display" style="color: #8D99AE; font-size: 15px; font-weight: 600; letter-spacing: 0.5px;">Chạm để nhập mã SKU...</div>
     </div>
 
@@ -247,6 +252,9 @@ HTML_TEMPLATE = """
     <div class="native-input-box" id="nativeInputBox">
         <input type="text" id="nativeInput" class="native-input" placeholder="Nhập SKU bằng bàn phím..." oninput="syncFromNative()">
     </div>
+
+    <!-- Nút Tra Cứu luôn xuất hiện ở mọi chế độ -->
+    <button class="btn-search" onclick="searchSKU()">🌸 TRA CỨU NGAY 🌸</button>
 
     <!-- Bàn phím số tùy chỉnh -->
     <div class="numpad" id="customNumpad">
@@ -262,7 +270,6 @@ HTML_TEMPLATE = """
         <button class="btn btn-action btn-del-all" onclick="clearDisplay()">XÓA HẾT</button>
         <button class="btn" onclick="inputNumber(0)">0</button>
         <button class="btn btn-action btn-del-one" onclick="deleteLast()">XÓA</button>
-        <button class="btn btn-search" onclick="searchSKU()">🌸 TRA CỨU NGAY 🌸</button>
     </div>
 
     <div class="footer-note">🌿 Anime Sky & Field Edition 🌿</div>
