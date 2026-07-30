@@ -3,38 +3,119 @@ import requests
 
 app = Flask(__name__)
 
-# --- PHẦN 1: GIAO DIỆN HIỂN THỊ TRÊN ĐIỆN THOẠI (FRONTEND) ---
+# ==========================================
+# PHẦN 1: GIAO DIỆN DARK MODE (FRONTEND)
+# ==========================================
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tra Mã Co.op Thống Nhất</title>
+    <title>Co.opmart Thống Nhất</title>
     <style>
-        body { font-family: sans-serif; padding: 10px; background: #f0f2f5; text-align: center; touch-action: manipulation;}
-        h3 { color: #00529c; margin-top: 5px;}
-        #display { 
-            width: 85%; font-size: 28px; padding: 15px; margin: 0 auto 15px auto; 
-            border: 2px solid #00529c; border-radius: 8px; text-align: center;
-            background: white; min-height: 35px; color: #333; font-weight: bold;
+        :root {
+            --bg: #121212;
+            --surface: #1e1e1e;
+            --primary: #0a84ff;
+            --text: #e0e0e0;
+            --danger: #ff453a;
+            --warn: #ff9f0a;
+            --success: #32d74b;
         }
-        .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 400px; margin: auto; }
-        .btn { background: white; border: 1px solid #ccc; border-radius: 8px; font-size: 26px; font-weight: bold; padding: 20px 0; cursor: pointer; color: #333;}
-        .btn:active { background: #e0e0e0; }
-        .btn-del-all { background: #ff4d4f; color: white; border: none;}
-        .btn-del-one { background: #faad14; color: white; border: none;}
-        .btn-search { background: #00529c; color: white; grid-column: span 3; border: none; padding: 20px 0;}
-        #result-card { margin: 20px auto; background: white; padding: 15px; border-radius: 8px; display: none; text-align: left; max-width: 400px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
-        #result-card img { max-width: 120px; display: block; margin: 0 auto 10px; border-radius: 8px;}
-        .out-of-stock { color: red; font-weight: bold; font-size: 20px;}
-        .in-stock { color: green; font-weight: bold; font-size: 20px;}
-        .loading { color: #00529c; font-weight: bold; text-align: center;}
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            padding: 20px 15px; 
+            background: var(--bg); 
+            color: var(--text);
+            text-align: center; 
+            touch-action: manipulation; /* Chống zoom khi gõ phím nhanh */
+            margin: 0;
+        }
+        h3 { color: var(--primary); margin: 0 0 20px 0; font-size: 20px; text-transform: uppercase; letter-spacing: 1px;}
+        
+        #display { 
+            width: calc(100% - 40px); 
+            font-size: 32px; 
+            padding: 15px 20px; 
+            margin: 0 auto 20px auto; 
+            border: 1px solid #333; 
+            border-radius: 16px; 
+            background: var(--surface); 
+            color: #fff; 
+            font-weight: 600;
+            letter-spacing: 2px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 400px; margin: auto; }
+        
+        .btn { 
+            background: var(--surface); 
+            border: none; 
+            border-radius: 16px; 
+            font-size: 28px; 
+            font-weight: 500; 
+            padding: 20px 0; 
+            cursor: pointer; 
+            color: #fff;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: all 0.1s;
+        }
+        .btn:active { background: #333; transform: translateY(2px); box-shadow: 0 1px 2px rgba(0,0,0,0.2);}
+        
+        .btn-del-all { background: var(--danger); font-size: 18px; font-weight: bold;}
+        .btn-del-all:active { background: #d70015; }
+        
+        .btn-del-one { background: var(--warn); font-size: 18px; font-weight: bold;}
+        .btn-del-one:active { background: #d57ff00; }
+        
+        .btn-search { background: var(--primary); font-size: 20px; font-weight: bold; grid-column: span 3; padding: 18px 0; border-radius: 16px;}
+        .btn-search:active { background: #007aff; }
+
+        #result-card { 
+            margin: 25px auto; 
+            background: var(--surface); 
+            padding: 20px; 
+            border-radius: 16px; 
+            display: none; 
+            text-align: left; 
+            max-width: 400px; 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            border: 1px solid #333;
+        }
+        #result-card img { 
+            max-width: 140px; 
+            display: block; 
+            margin: 0 auto 15px; 
+            border-radius: 12px;
+            background: #fff; /* Nền trắng cho ảnh sản phẩm rõ nét */
+            padding: 5px;
+        }
+        .product-name { margin: 5px 0; font-size: 18px; line-height: 1.5; color: #fff; font-weight: 600;}
+        .product-sku { margin: 5px 0 15px 0; color: #888; font-size: 14px;}
+        
+        .divider { border: 0; border-top: 1px solid #333; margin: 15px 0; }
+        
+        .out-of-stock { color: var(--danger); font-weight: bold; font-size: 22px; display: block; text-align: center;}
+        .in-stock { color: var(--success); font-weight: bold; font-size: 22px; display: block; text-align: center;}
+        .price-tag { color: #fff; display: block; text-align: center; font-size: 18px; margin-top: 5px;}
+        .loading { color: var(--primary); font-weight: bold; text-align: center; font-size: 16px; animation: pulse 1.5s infinite;}
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
-    <h3>CO.OPMART THỐNG NHẤT</h3>
-    <div id="display"></div>
+    <h3>Co.opmart Thống Nhất</h3>
+    <div id="display">NHẬP MÃ SKU</div>
     <div class="numpad">
         <button class="btn" onclick="inputNumber(1)">1</button>
         <button class="btn" onclick="inputNumber(2)">2</button>
@@ -53,53 +134,69 @@ HTML_TEMPLATE = """
 
     <div id="result-card">
         <img id="res-img" src="" alt="Ảnh">
-        <h4 id="res-name" style="margin: 5px 0; font-size: 18px; line-height: 1.4;">Tên sản phẩm</h4>
-        <p style="margin: 5px 0; color: #666; font-size: 14px;">SKU: <span id="res-sku"></span></p>
-        <hr style="border: 0; border-top: 1px dashed #ccc; margin: 10px 0;">
-        <p id="res-status" style="margin: 5px 0; text-align: center;"></p>
+        <h4 id="res-name" class="product-name">Tên sản phẩm</h4>
+        <p class="product-sku">Mã SKU: <span id="res-sku"></span></p>
+        <hr class="divider">
+        <div id="res-status"></div>
     </div>
 
     <script>
         let currentInput = "";
         const display = document.getElementById("display");
 
-        function inputNumber(num) { currentInput += num; updateDisplay(); }
-        function deleteLast() { currentInput = currentInput.slice(0, -1); updateDisplay(); }
-        function clearDisplay() { currentInput = ""; updateDisplay(); }
-        function updateDisplay() { display.innerText = currentInput || "Nhập SKU"; }
+        function inputNumber(num) { 
+            currentInput += num; 
+            updateDisplay(); 
+        }
+        function deleteLast() { 
+            currentInput = currentInput.slice(0, -1); 
+            updateDisplay(); 
+        }
+        function clearDisplay() { 
+            currentInput = ""; 
+            updateDisplay(); 
+        }
+        function updateDisplay() { 
+            if(currentInput === "") {
+                display.innerText = "NHẬP MÃ SKU";
+                display.style.color = "#666";
+            } else {
+                display.innerText = currentInput; 
+                display.style.color = "#fff";
+            }
+        }
 
         function searchSKU() {
-            if(!currentInput) return alert("Chưa nhập mã SKU!");
+            if(!currentInput) return alert("Bạn chưa nhập mã SKU!");
             
             let card = document.getElementById("result-card");
             card.style.display = "block";
-            document.getElementById("res-name").innerText = "Đang tra cứu dữ liệu...";
-            document.getElementById("res-name").className = "loading";
-            document.getElementById("res-img").src = "";
+            document.getElementById("res-name").innerText = "Đang kết nối kho hàng...";
+            document.getElementById("res-name").className = "product-name loading";
             document.getElementById("res-img").style.display = "none";
-            document.getElementById("res-status").innerText = "";
+            document.getElementById("res-status").innerHTML = "";
             document.getElementById("res-sku").innerText = currentInput;
 
-            // Gọi qua Backend trung gian để né lỗi CORS
             fetch('/api/search?sku=' + currentInput)
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById("res-name").className = "";
+                    document.getElementById("res-name").className = "product-name";
                     if(data.found) {
                         document.getElementById("res-name").innerText = data.name;
                         if(data.image) {
                             document.getElementById("res-img").src = data.image;
                             document.getElementById("res-img").style.display = "block";
                         }
-                        document.getElementById("res-status").innerHTML = '<span class="in-stock">CÒN HÀNG<br>' + data.price + ' đ</span>';
+                        document.getElementById("res-status").innerHTML = '<span class="in-stock">CÒN HÀNG</span><span class="price-tag">' + data.price + ' đ</span>';
                     } else {
                         document.getElementById("res-name").innerText = "Không tìm thấy trong hệ thống";
-                        document.getElementById("res-status").innerHTML = '<span class="out-of-stock">HẾT HÀNG (Hoặc sai mã)</span>';
+                        document.getElementById("res-status").innerHTML = '<span class="out-of-stock">HẾT HÀNG</span><span class="price-tag" style="color:#888; font-size:14px;">(Hoặc nhập sai mã SKU)</span>';
                     }
                 })
                 .catch(err => {
-                    document.getElementById("res-name").innerText = "Lỗi kết nối";
-                    document.getElementById("res-status").innerText = "Kiểm tra lại mạng";
+                    document.getElementById("res-name").className = "product-name";
+                    document.getElementById("res-name").innerText = "Lỗi mạng hoặc Server";
+                    document.getElementById("res-status").innerHTML = '<span class="out-of-stock">Vui lòng thử lại</span>';
                 });
         }
         updateDisplay();
@@ -108,7 +205,9 @@ HTML_TEMPLATE = """
 </html>
 """
 
-# --- PHẦN 2: XỬ LÝ DỮ LIỆU VỚI CO.OPMART (BACKEND) ---
+# ==========================================
+# PHẦN 2: XỬ LÝ NGẦM & VƯỢT RÀO (BACKEND)
+# ==========================================
 @app.route('/')
 def index():
     return render_template_string(HTML_TEMPLATE)
@@ -119,73 +218,63 @@ def search():
     if not sku:
         return jsonify({"found": False})
 
-    # Link API chuẩn để lấy sản phẩm của Teko/Co.op
     url = "https://search.tekoapis.com/api/v1/search"
     
+    # Đã thêm các Header ngụy trang thành trình duyệt thật để không bị chặn
     headers = {
+        "Accept": "application/json, text/plain, */*",
         "Content-Type": "application/json",
-        "Accept": "application/json",
-        # Token bạn lấy được từ F12
+        "Origin": "https://cooponline.vn",
+        "Referer": "https://cooponline.vn/",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         "X-Tk-Access-Token": "QUEYCPKVSKIDYGUCWPVBSCEWSCEZ6A"
     }
     
-    # Gói tin tìm kiếm y hệt như web Co.op gửi đi
     payload = {
         "query": sku,
         "page_size": 15,
         "filters": [
-            {"key": "terminals", "value": "578_sgc"}, # ĐÚNG ID CỦA CO.OP THỐNG NHẤT
+            {"key": "terminals", "value": "578_sgc"},
             {"key": "is_active", "value": True}
         ]
     }
 
     try:
         response = requests.post(url, json=payload, headers=headers)
-        data = response.json()
         
-        # Bóc tách dữ liệu JSON
+        # Nếu bị lỗi (như Token hết hạn), in ra console để dễ gỡ lỗi
+        if response.status_code != 200:
+            print(f"Lỗi truy cập API. Mã lỗi: {response.status_code}")
+            return jsonify({"found": False, "error": "API Error"})
+
+        data = response.json()
         documents = data.get("data", {}).get("documents", [])
         
         if len(documents) > 0:
             product = documents[0]
+            name = product.get("name", "Sản phẩm không có tên")
             
-            # Cố gắng lấy Tên, Giá, Ảnh
-            try:
-                # Cấu trúc phổ biến của hệ thống Teko
-                name = product.get("name", "Không lấy được tên")
-                
-                # Tìm giá
-                price = "0"
-                if "productDetail" in product and "prices" in product["productDetail"] and len(product["productDetail"]["prices"]) > 0:
-                    price_num = product["productDetail"]["prices"][0].get("sellPrice", 0)
-                    price = f"{price_num:,.0f}".replace(",", ".")
-                
-                # Tìm ảnh
-                image = ""
-                if "productDetail" in product and "images" in product["productDetail"] and len(product["productDetail"]["images"]) > 0:
-                    image = product["productDetail"]["images"][0].get("url", "")
-                
-                return jsonify({
-                    "found": True,
-                    "name": name,
-                    "price": price,
-                    "image": image
-                })
-            except Exception as e:
-                # Nếu cấu trúc JSON bị thay đổi nhẹ, vẫn báo là có hàng
-                 return jsonify({
-                    "found": True,
-                    "name": str(product.get("name", "Có hàng - Không rò tên")),
-                    "price": "N/A",
-                    "image": ""
-                })
+            price = "0"
+            if "productDetail" in product and "prices" in product["productDetail"] and len(product["productDetail"]["prices"]) > 0:
+                price_num = product["productDetail"]["prices"][0].get("sellPrice", 0)
+                price = f"{price_num:,.0f}".replace(",", ".")
+            
+            image = ""
+            if "productDetail" in product and "images" in product["productDetail"] and len(product["productDetail"]["images"]) > 0:
+                image = product["productDetail"]["images"][0].get("url", "")
+            
+            return jsonify({
+                "found": True,
+                "name": name,
+                "price": price,
+                "image": image
+            })
         else:
-            # Không có documents nào tức là hết hàng / không bán
             return jsonify({"found": False})
 
     except Exception as e:
+        print(f"Lỗi Code: {e}")
         return jsonify({"found": False, "error": str(e)})
 
 if __name__ == '__main__':
-    # Chạy server
     app.run(host='0.0.0.0', port=8080)
