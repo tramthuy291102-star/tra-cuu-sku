@@ -23,8 +23,8 @@
             --grass-green: #52B788;
             --pastel-yellow: #FFD166;
             --text-dark: #2B2D42;
-            --card-bg: rgba(255, 255, 255, 0.94);
-            --shadow: 0 12px 35px rgba(78, 168, 222, 0.22);
+            --card-bg: #FFFFFF;
+            --shadow: 0 4px 15px rgba(78, 168, 222, 0.12);
             --red: #FF6B6B;
             --orange: #FFB703;
         }
@@ -32,7 +32,7 @@
         body { 
             font-family: 'Nunito', sans-serif; 
             padding: 20px 15px; 
-            background: linear-gradient(135deg, #E0F4FF 0%, #EAFDF8 50%, #FFF9E6 100%);
+            background: #EAF4FC;
             color: var(--text-dark);
             margin: 0;
             display: flex;
@@ -41,27 +41,19 @@
             min-height: 100vh;
             box-sizing: border-box;
             touch-action: manipulation;
-            background-attachment: fixed;
         }
 
-        /* Khung thông tin chủ nhân web */
+        /* Khung thông tin chủ nhân web (đã lược bỏ hiệu ứng lag) */
         .owner-banner {
             display: flex;
             align-items: center;
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
             padding: 8px 18px;
             border-radius: 50px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.04);
             margin-bottom: 15px;
             border: 2px solid #BEE1E6;
             gap: 10px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
         }
 
         .owner-avatar {
@@ -93,7 +85,7 @@
 
         /* Nút chuyển đổi chế độ bàn phím */
         .btn-mode-switch {
-            background: rgba(255, 255, 255, 0.8);
+            background: #FFFFFF;
             border: 1.5px solid #90E0EF;
             padding: 8px 16px;
             border-radius: 30px;
@@ -103,8 +95,7 @@
             color: #0077B6;
             cursor: pointer;
             margin-bottom: 15px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.03);
-            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
         }
         .btn-mode-switch:active {
             transform: scale(0.95);
@@ -115,15 +106,14 @@
             width: 100%;
             max-width: 360px;
             background: var(--card-bg);
-            backdrop-filter: blur(12px);
             border: 2px solid #FFFFFF;
-            border-radius: 24px;
-            padding: 20px;
+            border-radius: 20px;
+            padding: 18px;
             box-shadow: var(--shadow);
             margin-bottom: 15px;
             text-align: center;
             box-sizing: border-box;
-            min-height: 75px;
+            min-height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -131,7 +121,7 @@
 
         #display { 
             font-family: 'Quicksand', sans-serif;
-            font-size: 32px; 
+            font-size: 30px; 
             font-weight: 700;
             color: var(--text-dark);
             letter-spacing: 3px;
@@ -148,12 +138,12 @@
 
         .native-input {
             width: 100%;
-            padding: 18px 20px;
+            padding: 16px 20px;
             font-size: 20px;
             font-family: 'Quicksand', sans-serif;
             font-weight: 700;
             border: 2px solid var(--sky-blue);
-            border-radius: 20px;
+            border-radius: 18px;
             background: var(--card-bg);
             color: var(--text-dark);
             outline: none;
@@ -162,65 +152,61 @@
             box-sizing: border-box;
         }
 
-        /* Nút Tra Cứu Ngay luôn hiển thị độc lập ở ngoài */
+        /* Nút Tra Cứu Ngay */
         .btn-search { 
             width: 100%;
             max-width: 360px;
             background: linear-gradient(135deg, #4EA8DE 0%, #52B788 100%); 
             color: white; 
             border: none;
-            padding: 18px 0; 
-            border-radius: 20px;
+            padding: 16px 0; 
+            border-radius: 18px;
             font-family: 'Quicksand', sans-serif;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             letter-spacing: 1px;
-            box-shadow: 0 8px 22px rgba(82, 183, 136, 0.35);
+            box-shadow: 0 6px 18px rgba(82, 183, 136, 0.25);
             cursor: pointer;
             margin-bottom: 15px;
-            transition: all 0.2s ease;
         }
         .btn-search:active { 
-            transform: scale(0.97);
-            background: linear-gradient(135deg, #3A86EF 0%, #40916C 100%); 
+            transform: scale(0.97); 
         }
         
         /* Bàn phím số tùy chỉnh */
         .numpad { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
-            gap: 12px; 
+            gap: 10px; 
             width: 100%;
             max-width: 360px; 
         }
         
         .btn { 
             background: var(--card-bg); 
-            backdrop-filter: blur(5px);
-            border: 2px solid rgba(255, 255, 255, 0.9); 
-            border-radius: 20px; 
+            border: 2px solid #FFFFFF; 
+            border-radius: 16px; 
             font-family: 'Quicksand', sans-serif;
-            font-size: 24px; 
+            font-size: 22px; 
             font-weight: 700; 
-            padding: 16px 0; 
+            padding: 15px 0; 
             cursor: pointer; 
             color: var(--text-dark);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            transition: all 0.15s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
         }
         .btn:active { 
-            transform: scale(0.92); 
+            transform: scale(0.93); 
             background: #D8F3DC; 
         }
         
-        .btn-action { font-size: 14px; font-weight: 800; }
-        .btn-del-all { color: var(--red); background: #FFE5E5; border-color: #FFC9C9; }
-        .btn-del-one { color: #D4A373; background: #FEFAE0; border-color: #FAEDCD; }
+        .btn-action { font-size: 13px; font-weight: 800; }
+        .btn-del-all { color: var(--red); background: #FFE5E5; }
+        .btn-del-one { color: #D4A373; background: #FEFAE0; }
 
         .footer-note {
-            margin-top: 18px;
-            font-size: 12px;
-            color: #6C757D;
+            margin-top: 15px;
+            font-size: 11px;
+            color: #8C9AAB;
             text-align: center;
             font-weight: 600;
         }
@@ -240,7 +226,7 @@
     
     <!-- Màn hình hiển thị số (Chế độ Numpad) -->
     <div id="display-container">
-        <div id="display" style="color: #8D99AE; font-size: 15px; font-weight: 600; letter-spacing: 0.5px;">Chạm để nhập mã SKU...</div>
+        <div id="display" style="color: #8D99AE; font-size: 14px; font-weight: 600; letter-spacing: 0.5px;">Chạm để nhập mã SKU...</div>
     </div>
 
     <!-- Ô nhập văn bản chuẩn (Chế độ bàn phím điện thoại) -->
@@ -267,7 +253,7 @@
         <button class="btn btn-action btn-del-one" onclick="deleteLast()">XÓA</button>
     </div>
 
-    <div class="footer-note">🌿 Anime Sky & Field Edition 🌿</div>
+    <div class="footer-note">🌿 Ultra Smooth Edition 🌿</div>
 
     <script>
         let currentInput = "";
@@ -319,13 +305,13 @@
             if(currentInput === "") {
                 display.innerText = "Chạm để nhập mã SKU...";
                 display.style.color = "#8D99AE";
-                display.style.fontSize = "15px";
+                display.style.fontSize = "14px";
                 display.style.fontWeight = "600";
                 display.style.letterSpacing = "0.5px";
             } else {
                 display.innerText = currentInput; 
                 display.style.color = "var(--text-dark)";
-                display.style.fontSize = "32px";
+                display.style.fontSize = "30px";
                 display.style.fontWeight = "700";
                 display.style.letterSpacing = "3px";
             }
